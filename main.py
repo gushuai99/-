@@ -27,8 +27,36 @@ for i in range(len(files)):
     cv2.imshow("CLHAE", sceneRadiance_CLHAE)
     #cv2.waitKey(0)
 
+src=img.shape
+top,left=0,0
+row=src[0]
+col=src[1]
+
+def make_divisible_by_4(num):
+    # 检查输入是否为整数
+    if not isinstance(num, int):
+        raise ValueError("输入必须是整数")
+
+    # 如果输入已经能被4整除，则直接返回
+    if num % 4 == 0:
+        return 0
+
+    # 计算需要加多少才能使其被4整除
+    remainder = num % 4
+    addition = 4 - remainder
+
+    # 返回加上后的结果
+    return addition
+
+top = make_divisible_by_4(row)
+left = make_divisible_by_4(col)
+print(top, left)
+
+
+
+    
     #对边零填充
-    top, bottom, left, right = 2, 1, 0, 1
+    bottom,, right =0,0
     sceneRadiance_CLHAE00 = cv2.copyMakeBorder(sceneRadiance_CLHAE, top, bottom, left, right,
                                                borderType=cv2.BORDER_CONSTANT,
                                                value=0)  #(336,476,3)
@@ -132,8 +160,7 @@ for i in range(len(files)):
         #cv2.imwrite(folder + '/OutputImages/' + Number + 'Stretched.jpg', sceneRadiance)
         sceneRadiance = HSVStretching(sceneRadiance)
         sceneRadiance_UCM = sceneRadianceRGB(sceneRadiance)  #(335,474,3)
-
-        top, bottom, left, right = 2, 1, 0, 1
+        
         sceneRadiance_UCM00 = cv2.copyMakeBorder(sceneRadiance_UCM, top, bottom, left, right,
                                                  borderType=cv2.BORDER_CONSTANT,
                                                  value=0)  # (336,476,3)
